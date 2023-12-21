@@ -1,6 +1,8 @@
 // src/components/Home.js
 
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+
 
 function Home()  {
     const [cryptos, setCryptos] = useState([]);
@@ -48,40 +50,41 @@ function Home()  {
     };
 
     return (
-        <div className="bg-red-100 p-8">
-        <h1 className="text-4xl font-bold mb-4">Explora Criptomonedas</h1>
-        <p className="text-lg mb-8">
-            Descubre información sobre las criptomonedas más populares en el mercado.
+        <div className="bg-rose-200 p-8 min-h-screen ">
+        <h1 className="text-4xl font-bold text-center font-mono mb-8">Explora las criptomonedas</h1>
+        <p className="text-lg font-mono mb-8 text-center">
+            Descubre información sobre las criptomonedas más populares en el mercado. Podrás ver su variación en las últimas 24 horas.
         </p>
 
         {cryptos.map((crypto) => (
-            <div
-            key={crypto.id}
-            className="flex items-center justify-between bg-orange-50 p-4 rounded-md shadow-md mb-4"
-            >
-            <div className="flex items-center">
-                <img
-                src={crypto.image}
-                alt={`${crypto.name} Logo`}
-                className="w-8 h-8 mr-2"
-                />
+          <Link key={crypto.id} to={`/coinDetail/${crypto.id}`}>
+            <div className="flex items-center justify-between bg-orange-50 p-4 rounded-md shadow-md mb-4">
+              <div className="flex items-center">
+                <img src={crypto.image} alt={`${crypto.name} Logo`} className="w-8 h-8 mr-2" />
                 <div>
-                <p className="text-lg font-bold">
-                    {`${crypto.name} [${crypto.symbol}]`}
-                </p>
-                <p className="text-gray-600">{crypto.symbol}</p>
+                  <p className="text-lg font-bold">{`${crypto.name}`}</p>
+                  <p className="text-gray-600">{crypto.symbol}</p>
                 </div>
-            </div>
-            <div className="flex items-end flex-col text-right">
-                <p className={`text-2xl font-bold ${crypto.price_change_percentage_24h > 0 ? 'text-green-500' : 'text-red-500'}`}>
-                ${crypto.current_price}
+              </div>
+              <div className="flex items-end flex-col text-right">
+                <p
+                  className={`text-2xl font-bold ${
+                    crypto.price_change_percentage_24h > 0 ? 'text-green-500' : 'text-red-500'
+                  }`}
+                >
+                  ${crypto.current_price}
                 </p>
-                <p className={`text-sm ${crypto.price_change_percentage_24h > 0 ? 'text-green-500' : 'text-red-500'}`}>
-                {crypto.price_change_percentage_24h.toFixed(2)}%
+                <p
+                  className={`text-sm ${
+                    crypto.price_change_percentage_24h > 0 ? 'text-green-500' : 'text-red-500'
+                  }`}
+                >
+                  {crypto.price_change_percentage_24h.toFixed(2)}%
                 </p>
+              </div>
             </div>
-            </div>
-        ))}
+          </Link>
+      ))}
 
         {/* Paginación */}
         <div className="flex justify-center mt-4">
