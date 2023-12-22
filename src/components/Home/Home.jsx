@@ -37,12 +37,6 @@ function Home()  {
       setCurrentPage(newPage);
     };
   
-    const handleNextPage = () => {
-      if (currentPage < totalPages) {
-        setCurrentPage(currentPage + 1);
-      }
-    };
-  
     const handlePrevPage = () => {
       if (currentPage > 1) {
         setCurrentPage(currentPage - 1);
@@ -58,7 +52,7 @@ function Home()  {
 
         {cryptos.map((crypto) => (
           <Link key={crypto.id} to={`/coinDetail/${crypto.id}`}>
-            <div className="flex items-center justify-between bg-orange-50 p-4 rounded-md shadow-md mb-4">
+            <div className="flex items-center justify-between bg-orange-50 p-4 rounded-md shadow-md mb-4 transition-transform duration-300 transform hover:scale-105 hover:bg-yellow-100">
               <div className="flex items-center">
                 <img src={crypto.image} alt={`${crypto.name} Logo`} className="w-8 h-8 mr-2" />
                 <div>
@@ -88,36 +82,35 @@ function Home()  {
 
         {/* Paginación */}
         <div className="flex justify-center mt-4">
-        <button
-          onClick={handlePrevPage}
-          className={`mx-2 p-2 focus:outline-none ${
-            currentPage === 1 ? 'bg-gray-200 cursor-not-allowed' : 'bg-indigo-500 hover:bg-indigo-800 text-white font-bold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded'
-          }`}
-          disabled={currentPage === 1}
-        >
-          Anterior
-        </button>
-        {Array.from({ length: totalPages }, (_, index) => (
           <button
-            key={index + 1}
-            onClick={() => handlePageChange(index + 1)}
+            onClick={handlePrevPage}
             className={`mx-2 p-2 focus:outline-none ${
-              currentPage === index + 1 ? 'bg-indigo-500 text-white font-bold' : 'bg-indigo-200 rounded text-white'
+              currentPage === 1 ? 'bg-gray-200 cursor-not-allowed' : 'bg-indigo-500 hover:bg-indigo-800 text-white font-bold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded'
+            }`}
+            disabled={currentPage === 1}
+          >
+            Anterior
+          </button>
+          <button
+            onClick={() => handlePageChange(currentPage)}
+            className={`mx-2 p-2 focus:outline-none ${
+              'bg-indigo-300 text-white font-bold'
             }`}
           >
-            {index + 1}
+            {currentPage}
           </button>
-        ))}
-        <button
-          onClick={handleNextPage}
-          className={`mx-2 p-2 focus:outline-none ${
-            currentPage === totalPages ? 'bg-gray-200 cursor-not-allowed' : 'bg-indigo-500 hover:bg-indigo-800 text-white font-bold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded'
-          }`}
-          disabled={currentPage === totalPages}
-        >
-          Siguiente
-        </button>
-      </div>
+          {currentPage < totalPages && (
+            <button
+              onClick={() => handlePageChange(currentPage + 1)}
+              className={`mx-2 p-2 focus:outline-none ${
+                'bg-indigo-500 hover:bg-indigo-800 text-white font-bold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded'
+              }`}
+            >
+              Siguiente
+            </button>
+          )}
+        </div>
+
     </div>
     );
 };

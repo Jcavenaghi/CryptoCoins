@@ -1,11 +1,14 @@
 // src/components/CoinDetail.js
 
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
+import { RingLoader } from 'react-spinners';
 
 function CoinDetail() {
   const { id } = useParams();
   const [coin, setCoin] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCoinDetail = async () => {
@@ -26,11 +29,24 @@ function CoinDetail() {
   }, [id]);
 
   if (!coin) {
-    return <div>Loading...</div>;
+    return  <div className=" bg-orange-50 flex items-center justify-center h-screen">
+    <RingLoader color="#4A90E2" loading={loading} size={100} />
+  </div>
   }
+
+  const handleGoBack = () => {
+    navigate(-1); // Navegar hacia atrás
+  };
 
   return (
     <div className="bg-orange-50 p-8 min-h-screen font-bold text-justify">
+      {/* Botón "Volver" */}
+      <button
+        onClick={handleGoBack}
+        className="text-blue-500 hover:text-blue-800 text-md font-bold mb-4"
+      >
+        {'Volver'}
+      </button>
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center">
           <img src={coin.image.large} alt={`${coin.name} Logo`} className="w-12 h-12 mr-4" />
